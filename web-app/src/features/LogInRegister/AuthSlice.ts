@@ -3,7 +3,7 @@ import { RootState } from "../../app/store";
 import { loginAPI, registerAPI } from "../../apis/auth";
 import { IDataUser } from "../../interfaces/user";
 
-export interface CounterState {
+export interface IAuthState {
   token: string | null;
   isLoggingIn: boolean;
   isRegistering: boolean;
@@ -12,7 +12,7 @@ export interface CounterState {
   error: string | null;
 }
 
-const initialState: CounterState = {
+const initialState: IAuthState = {
   token: null,
   isLoggingIn: false,
   isRegistering: false,
@@ -34,7 +34,7 @@ export const Register = createAsyncThunk("auth/register", async (user: IDataUser
 });
 
 export const authSlice = createSlice({
-  name: "counter",
+  name: "auth",
   initialState,
   reducers: {},
   extraReducers: (builder) => {

@@ -4,21 +4,16 @@ create table user (
 	user_id int not null auto_increment,
     name varchar(50) not null,
     gender varchar(2) not null,
-    dateofbirth datetime not null,
+    date_of_birth datetime not null,
     school_name varchar(50),
-    phonenumber varchar(20) not null,
-    email varchar(50) not null,
+    phone_number varchar(20) not null unique,
+    email varchar(50) not null unique,
     address varchar(100),
-    constraint pk_user primary key (user_id)
-);
-
-create table account (
-	account_id int not null auto_increment,
-    user_id int,
-    username varchar(50) not null,
+    username varchar(50) not null unique,
     password varchar(256) not null,
-    constraint pk_account primary key (account_id),
-    constraint fk_account_user foreign key (user_id) references user(user_id)
+    created_at datetime not null,
+    updated_at datetime,
+    constraint pk_user primary key (user_id)
 );
 
 create table exam (
