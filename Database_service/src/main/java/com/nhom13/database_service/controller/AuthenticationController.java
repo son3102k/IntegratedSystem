@@ -1,0 +1,87 @@
+package com.nhom13.database_service.controller;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.google.gson.Gson;
+import com.nhom13.database_service.entity.User;
+import com.nhom13.database_service.http.request.AuthenticationRequest;
+import com.nhom13.database_service.http.response.AuthenticationResponse;
+import com.nhom13.database_service.http.response.Response;
+import com.nhom13.database_service.security.service.JwtTokenService;
+import com.nhom13.database_service.security.service.JwtUserDetailsService;
+import com.nhom13.database_service.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import javax.validation.Valid;
+import java.util.Optional;
+
+
+@RestController
+@RequestMapping(value = "/auth")
+@CrossOrigin("*")
+public class AuthenticationController {
+    @Autowired
+    UserService userService;
+    @Autowired
+    JwtUserDetailsService jwtUserDetailsService;
+    @Autowired
+    JwtTokenService jwtTokenService;
+    @Autowired
+    AuthenticationManager authenticationManager;
+    Gson gson = new Gson();
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody @Valid User user) {
+        Optional<User> duplicateUser = userService.findByEmail(user.getEmail());
+        System.out.println(duplicateUser);
+        if (duplicateUser.equals(Optional.empty())) {
+            duplicateUser = userService.findByPhoneNumber(user.getPhoneNumber());
+        }
+        else {
+            return ResponseEntity.badRequest().body(gson.toJson(new Response(HttpStatus.BAD_REQUEST.value(), "The email was existed!", "" )));
+        }
+        if (duplicateUser.equals(Optional.empty())) {
+            duplicateUser = userService.findByUsername(user.getUsername());
+        }
+        else {
+            return ResponseEntity.badRequest().body(gson.toJson(new Response(HttpStatus.BAD_REQUEST.value(), "The phone number was existed!", "" )));
+        }
+        if (duplicateUser.equals(Optional.empty())) {
+            String password = user.getPassword();
+            user.setPassword(new BCryptPasswordEncoder().encode(password));
+            userService.save(user);
+            return ResponseEntity.ok(gson.toJson(new Response(HttpStatus.OK.value(), "successfully" , "")));
+        }
+        else {
+            return ResponseEntity.badRequest().body(gson.toJson(new Response(HttpStatus.BAD_REQUEST.value(), "The username was existed!", "" )));
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> authenticate(@RequestBody @Valid final AuthenticationRequest authenticationRequest) {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    authenticationRequest.getUsername(), authenticationRequest.getPassword()));
+        } catch (final BadCredentialsException e) {
+            return ResponseEntity.ok(gson.toJson(new Response(HttpStatus.UNAUTHORIZED.value(), e.getMessage() , e.getMessage())));
+        } catch (final JWTDecodeException e) {
+            return ResponseEntity.ok(gson.toJson(new Response(HttpStatus.BAD_REQUEST.value(), e.getMessage() , e.getMessage())));
+        } catch (final JWTVerificationException e) {
+            return ResponseEntity.ok(gson.toJson(new Response(HttpStatus.UNAUTHORIZED.value(), e.getMessage() , e.getMessage())));
+        }
+
+        final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+        final AuthenticationResponse authenticationResponse = new AuthenticationResponse();
+        authenticationResponse.setAccessToken(jwtTokenService.generateToken(userDetails));
+        authenticationResponse.setRole(userDetails.getAuthorities());
+        return ResponseEntity.ok(gson.toJson(new Response(HttpStatus.OK.value(),"login successfully", authenticationResponse)));
+    }
+}
