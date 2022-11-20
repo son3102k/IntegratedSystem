@@ -2,6 +2,8 @@ package com.nhom13.database_service.controller;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.google.gson.Gson;
+import com.nhom13.database_service.constant.ApiStatus;
+import com.nhom13.database_service.constant.MessageCode;
 import com.nhom13.database_service.entity.User;
 import com.nhom13.database_service.http.request.AuthenticationRequest;
 import com.nhom13.database_service.http.response.AuthenticationResponse;
@@ -10,7 +12,9 @@ import com.nhom13.database_service.security.service.JwtTokenService;
 import com.nhom13.database_service.security.service.JwtUserDetailsService;
 import com.nhom13.database_service.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -25,7 +29,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping(value = "/auth")
+@RequestMapping(value = "/auth",produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin("*")
 public class AuthenticationController {
     @Autowired
@@ -46,22 +50,22 @@ public class AuthenticationController {
             duplicateUser = userService.findByPhoneNumber(user.getPhoneNumber());
         }
         else {
-            return ResponseEntity.badRequest().body(gson.toJson(new Response(HttpStatus.BAD_REQUEST.value(), "The email was existed!", "" )));
+            return ResponseEntity.ok().body(gson.toJson(new Response(ApiStatus.DUPLICATE_VALUE_PARAM, "The email was existed!")));
         }
         if (duplicateUser.equals(Optional.empty())) {
             duplicateUser = userService.findByUsername(user.getUsername());
         }
         else {
-            return ResponseEntity.badRequest().body(gson.toJson(new Response(HttpStatus.BAD_REQUEST.value(), "The phone number was existed!", "" )));
+            return ResponseEntity.ok().body(gson.toJson(new Response(ApiStatus.DUPLICATE_VALUE_PARAM, "The phone number was existed!")));
         }
         if (duplicateUser.equals(Optional.empty())) {
             String password = user.getPassword();
             user.setPassword(new BCryptPasswordEncoder().encode(password));
             userService.save(user);
-            return ResponseEntity.ok(gson.toJson(new Response(HttpStatus.OK.value(), "successfully" , "")));
+            return ResponseEntity.ok(gson.toJson(new Response(ApiStatus.SUCCESS, MessageCode.SUCCESS)));
         }
         else {
-            return ResponseEntity.badRequest().body(gson.toJson(new Response(HttpStatus.BAD_REQUEST.value(), "The username was existed!", "" )));
+            return ResponseEntity.badRequest().body(gson.toJson(new Response(ApiStatus.DUPLICATE_VALUE_PARAM, "The username was existed!")));
         }
     }
 
@@ -70,18 +74,21 @@ public class AuthenticationController {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     authenticationRequest.getUsername(), authenticationRequest.getPassword()));
-        } catch (final BadCredentialsException e) {
-            return ResponseEntity.ok(gson.toJson(new Response(HttpStatus.UNAUTHORIZED.value(), e.getMessage() , e.getMessage())));
-        } catch (final JWTDecodeException e) {
-            return ResponseEntity.ok(gson.toJson(new Response(HttpStatus.BAD_REQUEST.value(), e.getMessage() , e.getMessage())));
-        } catch (final JWTVerificationException e) {
-            return ResponseEntity.ok(gson.toJson(new Response(HttpStatus.UNAUTHORIZED.value(), e.getMessage() , e.getMessage())));
         }
-
+        catch (final BadCredentialsException e) {
+            return ResponseEntity.ok(gson.toJson(new Response(ApiStatus.BAD_CREDENTIALS, MessageCode.BAD_CREDENTIALS)));
+        }
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+        final Optional<User> user = userService.findByUsername(authenticationRequest.getUsername());
         final AuthenticationResponse authenticationResponse = new AuthenticationResponse();
         authenticationResponse.setAccessToken(jwtTokenService.generateToken(userDetails));
-        authenticationResponse.setRole(userDetails.getAuthorities());
-        return ResponseEntity.ok(gson.toJson(new Response(HttpStatus.OK.value(),"login successfully", authenticationResponse)));
+        authenticationResponse.setAuthorities(userDetails.getAuthorities());
+        User responseUser = user.isEmpty() ? null : user.get();
+        if (responseUser!=null) {
+            responseUser.setUsername(null);
+            responseUser.setPassword(null);
+            authenticationResponse.setUser(responseUser);
+        }
+        return ResponseEntity.ok(gson.toJson(new Response(ApiStatus.SUCCESS,MessageCode.SUCCESS, authenticationResponse)));
     }
 }
