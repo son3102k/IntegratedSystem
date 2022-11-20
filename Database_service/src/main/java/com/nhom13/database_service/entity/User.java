@@ -1,6 +1,7 @@
 package com.nhom13.database_service.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nhom13.database_service.constant.GenderEnum;
 import com.nhom13.database_service.util.ValueOfEnum;
 
@@ -57,7 +58,6 @@ public class User {
     @NotEmpty(message = "The user name must not be empty")
     @Column(name = "username")
     private String username;
-
     @NotEmpty(message = "The password must not be empty")
     @Column(name = "password")
     private String password;
