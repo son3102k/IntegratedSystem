@@ -9,4 +9,6 @@ public class ApiStatus {
 
     public final static int METHOD_ARGUMENT_NOT_VALID = 5;
     public final static int TOKEN_INVALID = 6;
+
+    public final static int NOT_FOUND = 7;
 }

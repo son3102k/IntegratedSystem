@@ -41,6 +41,7 @@ public class JwtSecurityConfig {
                 .csrf().disable()
                 .authorizeRequests().
                 antMatchers("/auth/*").permitAll()
+                .antMatchers("/user/*").permitAll()
                 .anyRequest().authenticated().and()
                 .exceptionHandling()
                 .authenticationEntryPoint(authEntryPoint).and()
