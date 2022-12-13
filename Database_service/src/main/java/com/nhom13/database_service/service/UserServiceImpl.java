@@ -1,9 +1,11 @@
 package com.nhom13.database_service.service;
 import com.nhom13.database_service.entity.User;
+import com.nhom13.database_service.exception.UserNotFoundException;
 import com.nhom13.database_service.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -45,5 +47,32 @@ public class UserServiceImpl implements UserService{
     @Override
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public void updateResetPasswordToken(String token, String email) throws UserNotFoundException{
+        Optional<User> duplicateUser = userRepository.findByEmail(email);
+        if(duplicateUser.isPresent()){
+            User user = duplicateUser.get();
+            user.setResetPasswordToken(token);
+            userRepository.save(user);
+        } else {
+            throw new UserNotFoundException("Could not find any user with email " + email);
+        }
+    }
+
+    @Override
+    public User getByResetPasswordToken(String resetPasswordToken){
+        return userRepository.findByResetPasswordToken(resetPasswordToken);
+    }
+
+    @Override
+    public void updatePassword(User user, String newPassword){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        user.setPassword(encodedPassword);
+        user.setResetPasswordToken(null);
+
+        userRepository.save(user);
     }
 }

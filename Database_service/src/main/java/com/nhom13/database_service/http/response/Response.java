@@ -27,4 +27,9 @@ public class Response {
         this.message = message;
         this.data = data;
     }
+
+    public Response(int code, String message) {
+        this.code = code;
+        this.message = message;
+    }
 }
