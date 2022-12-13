@@ -15,7 +15,7 @@ public class JwtTokenService {
     private final Algorithm hmac512;
     private final JWTVerifier verifier;
 
-    private final long JWT_TOKEN_VALIDITY = 300L;
+    private final long JWT_TOKEN_VALIDITY = 86400000L;
 
     public JwtTokenService(@Value("${jwt.secret}") final String secret) {
         this.hmac512 = Algorithm.HMAC512(secret);
@@ -30,11 +30,6 @@ public class JwtTokenService {
     }
 
     public String validateTokenAndGetUsername(final String token) {
-        try {
             return verifier.verify(token).getSubject();
-        } catch (final JWTVerificationException verificationEx) {
-            System.out.println(("token invalid: " + verificationEx.getMessage()));
-            return null;
-        }
     }
 }

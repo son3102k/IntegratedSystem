@@ -1,4 +1,4 @@
-import "./ResetPW.scss";
+// import "./ResetPW.scss";
 
 const ResetPW = () => {
   return (

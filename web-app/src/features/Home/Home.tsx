@@ -1,8 +1,9 @@
+import Layout from "../../Layout/Layout";
 import "./Home.scss";
 const Home = () => {
   return (
     <div>
-      <div>Home</div>
+      <Layout />
     </div>
   );
 };
