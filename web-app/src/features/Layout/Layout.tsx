@@ -15,11 +15,13 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import { styled } from "@mui/material/styles";
-import { Page_LogOut, redirect_Account, redirect_Main } from "../constant/pageRedirect";
-import { name } from "../constant/name";
+import { redirect_Account, redirect_Main, redirect } from "../../constant/pageRedirect";
+import { name } from "../../constant/name";
 import { blue } from "@mui/material/colors";
-import { Router_Login } from "../constant/routerName";
 import { useNavigate } from "react-router-dom";
+// import { selectAuth } from "../logInRegister/AuthSlice";
+// import { useAppSelector } from "../../app/hooks";
+// import { Router_Login } from "../../constant/routerComponent";
 
 const drawerWidth = 240;
 
@@ -33,17 +35,42 @@ const Logo = styled("div")({
 
 interface Props {
   window?: () => Window;
+  children?: JSX.Element;
 }
 
 export default function Layout(props: Props) {
   const navigate = useNavigate();
+  // const auth = useAppSelector(selectAuth);
+  // if (auth.token == null) {
+  //   navigate(Router_Login);
+  //   console.log("not auth");
+  // }
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [nowRedirect, setNowRedirect] = React.useState(redirect_Main[0].name);
+  const [nowRedirectName, setNowRedirectName] = React.useState(redirect_Main[0].name);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  const handleClickTab = (redirect: redirect) => {
+    setNowRedirectName(redirect.name);
+    navigate(redirect.router);
+    handleDrawerToggle();
+  };
+
+  const renderListRedirect = (ListRedirects: redirect[]) => (
+    <List>
+      {ListRedirects.map((redirect) => (
+        <ListItem key={redirect.name} disablePadding>
+          <ListItemButton onClick={() => handleClickTab(redirect)}>
+            <ListItemIcon>{redirect.icon}</ListItemIcon>
+            <ListItemText primary={redirect.name} />
+          </ListItemButton>
+        </ListItem>
+      ))}
+    </List>
+  );
 
   const drawer = (
     <div>
@@ -56,33 +83,10 @@ export default function Layout(props: Props) {
         </Toolbar>
       </Logo>
       <Divider />
-      <List>
-        {redirect_Main.map((redirect) => (
-          <ListItem key={redirect.name} disablePadding>
-            <ListItemButton onClick={() => setNowRedirect(redirect.name)}>
-              <ListItemIcon>{redirect.icon}</ListItemIcon>
-              <ListItemText primary={redirect.name} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      {renderListRedirect(redirect_Main)}
       <Divider />
-      <List>
-        {redirect_Account.map((redirect) => (
-          <ListItem key={redirect.name} disablePadding>
-            <ListItemButton
-              onClick={() => {
-                if (redirect.name === Page_LogOut) {
-                  navigate(Router_Login);
-                } else setNowRedirect(redirect.name);
-              }}
-            >
-              <ListItemIcon>{redirect.icon}</ListItemIcon>
-              <ListItemText primary={redirect.name} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      {renderListRedirect(redirect_Account)}
+      <Divider />
     </div>
   );
 
@@ -109,7 +113,7 @@ export default function Layout(props: Props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            {nowRedirect}
+            {nowRedirectName}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -143,6 +147,7 @@ export default function Layout(props: Props) {
       <Box component="main" sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
         <Toolbar />
         {/* code ui in here */}
+        {props.children}
       </Box>
     </Box>
   );

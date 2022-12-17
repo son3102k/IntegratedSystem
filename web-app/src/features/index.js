@@ -1,5 +1,0 @@
-export {default as ForgetPW} from "./LogInRegister/ForgetPW"
-export {default as ResetPW} from "./LogInRegister/ResetPW"
-export {default as LogIn} from "./LogInRegister/LogIn"
-export {default as Register} from "./LogInRegister/Register"
-export {default as Home} from "./Home/Home"
