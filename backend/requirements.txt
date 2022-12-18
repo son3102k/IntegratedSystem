@@ -1,0 +1,17 @@
+uvicorn
+fastapi~=0.65.2
+msgpack
+importlib-metadata==4.13.0
+celery[redis]
+starlette~=0.14.2
+PyYAML~=5.4.1
+requests~=2.25.1
+aiofiles
+Jinja2
+passlib~=1.7.4
+python-jose
+uuid
+beautifulsoup4
+requests-async
+string-grouper
+pandas

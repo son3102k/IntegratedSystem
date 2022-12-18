@@ -1,0 +1,50 @@
+version: "3.5"
+
+services:
+  main:
+    image: thdl:latest
+    #restart: always
+    build:
+      context: .
+    #network_mode: host
+    volumes:
+      - ./:/app
+    ports:
+    - 9000:9000
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "3m"
+        max-file: "2"
+    depends_on:
+      - redis
+      - celery_worker
+    command:
+      uvicorn app:app --host 0.0.0.0 --port 9000 --reload
+    
+  celery_worker:
+    image: thdl:latest
+    #restart: always
+    environment:
+      MODE: worker 
+    #network_mode: host
+    volumes:
+      - ./:/app
+    depends_on:
+      - redis
+    command:
+     celery -A worker.tasks worker --loglevel=INFO --concurrency=100
+
+  redis:
+    image: redis:latest
+   # restart: always
+    #network_mode: host
+    command:
+      redis-server --maxmemory 512mb
+    ports:
+      - 6379:6379
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "3m"
+        max-file: "2"
