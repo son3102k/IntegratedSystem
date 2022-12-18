@@ -17,18 +17,12 @@ interface openForgetPW {
 }
 
 export default function ForgetPW({ openForgetPW, setOpenForgetPW }: openForgetPW) {
-  const [phoneNumber, setPhoneNumber] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [username, setUserName] = React.useState("");
 
   const validateEmail = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     // validate email
     setEmail(event.target.value);
-  };
-
-  const validatePhoneNumber = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    // validate PhoneNumber
-    setPhoneNumber(event.target.value);
   };
 
   const validateUserName = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -70,17 +64,6 @@ export default function ForgetPW({ openForgetPW, setOpenForgetPW }: openForgetPW
                         value={email}
                         onChange={(event) => validateEmail(event)}
                         autoFocus
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        autoComplete="phoneNumber"
-                        required
-                        fullWidth
-                        id="phoneNumber"
-                        label="Phone Number"
-                        value={phoneNumber}
-                        onChange={(event) => validatePhoneNumber(event)}
                       />
                     </Grid>
                     <Grid item xs={12}>
