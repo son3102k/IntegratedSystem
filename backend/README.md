@@ -19,4 +19,4 @@ $ docker-compose up
 
 ## test backend API
 
-access http://localhost:8000/docs through browser to enter API swagger to test API
+access http://localhost:9000/docs through browser to enter API swagger to test API
