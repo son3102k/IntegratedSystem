@@ -15,10 +15,10 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import image_login from "../../assets/image_login.jpg";
 import { group, welcome } from "../../constant/name";
 import { loginAPI } from "../../apis/auth";
-import Register from "./Register";
-import ForgetPW from "./ForgetPW";
 import { useNavigate } from "react-router-dom";
 import { Router_SearchOnline } from "../../constant/routerComponent";
+import Register from "./Register";
+import ForgetPW from "./ForgetPW";
 
 function Copyright(props: any) {
   return (

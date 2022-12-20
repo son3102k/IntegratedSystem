@@ -1,10 +1,10 @@
 import axios from "axios";
-import { API_BASE_URL } from "../configs";
+import { API_BASE_URL, ASSET_BASE_URL, SEARCH_TEST_BASE_URL, SPRING_BOOT_BASE_URL } from "../configs";
 // import { store } from "../app/store";
 
 // const CancelToken = axios.CancelToken;
 
-const axiosClient = axios.create({
+const axiosAPI = axios.create({
   baseURL: API_BASE_URL,
   responseType: "json",
   headers: {
@@ -13,7 +13,7 @@ const axiosClient = axios.create({
   timeout: 300 * 1000,
 });
 
-// axiosClient.interceptors.request.use(
+// axiosAPI.interceptors.request.use(
 //   (config) => {
 //     const accessToken = getAccessToken();
 //     if (accessToken) {
@@ -30,7 +30,7 @@ const axiosClient = axios.create({
 //   }
 // );
 
-axiosClient.interceptors.response.use(
+axiosAPI.interceptors.response.use(
   (response) => {
     return response;
   },
@@ -49,4 +49,31 @@ axiosClient.interceptors.response.use(
   }
 );
 
-export default axiosClient;
+const axiosASSET = axios.create({
+  baseURL: ASSET_BASE_URL,
+  responseType: "json",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  timeout: 300 * 1000,
+});
+
+const axiosSpringBoot = axios.create({
+  baseURL: SPRING_BOOT_BASE_URL,
+  responseType: "json",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  timeout: 300 * 1000,
+});
+
+const axiosSearchTest = axios.create({
+  baseURL: SEARCH_TEST_BASE_URL,
+  responseType: "json",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  timeout: 300 * 1000,
+});
+
+export { axiosAPI, axiosASSET, axiosSpringBoot, axiosSearchTest };
