@@ -1,5 +1,5 @@
 import { Account, Password } from "../features/accountFeature";
-import { LogIn } from "../features/logInRegister";
+import LogIn from "../features/LogInRegister/LogIn";
 import { AutomationTest, HistoryTest, SearchOnline } from "../features/mainFeature";
 
 export const Router_Login = "/log-in";

@@ -1,4 +1,4 @@
-import api from "./configApi";
+import { axiosSpringBoot as api } from "./configApi";
 import { IDataUser } from "../interfaces/user";
 
 const registerAPI = async (registerInfo: IDataUser) => {
