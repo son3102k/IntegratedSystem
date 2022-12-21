@@ -83,8 +83,8 @@ export default function AutomationTest() {
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography variant="h6" component="h2" color="#072d94" align="left">
-            Thi thử tự động
+          <Typography variant="h4" component="h2" color="#072d94" align="left" sx={{fontWeight: 700}}>
+            Automatic test
           </Typography>
         </Grid>
         <Grid item xs={12}>
