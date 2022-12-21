@@ -66,8 +66,7 @@ export default function AutomationTest() {
       src: require("../../assets/image_login.jpg")
     }
   ]);
-  const [listAnswers , setListAnswers] = useState(Array(6).fill(null).map(() => ''));
-  console.log(listAnswers)
+  const [listAnswers , setListAnswers] = useState(Array(listQuestion.length).fill(null).map(() => ''));
   const handleClickChangeQuestion = (i: number) => {
     setSelectedValue(listAnswers[i]);
     setSelectedIndex(i);
@@ -202,9 +201,10 @@ export default function AutomationTest() {
                     {listQuestion.map((e, i) => (
                       <Grid item xs={12} md={2} key={`grid-question-${i}`}>
                         <ListItemButton
-                          selected={selectedIndex === i}
+                          selected={selectedIndex === i || listAnswers[i] !== ''}
                           onClick={() => handleClickChangeQuestion(i)}
                           key={`itemButton-question-${i}`}
+                          // sx={{"&.Mui-selected": {backgroundColor: "#3092ed"}}}
                         >
                           <ListItemText
                             primary={i + 1}
