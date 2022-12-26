@@ -35,7 +35,7 @@ public class User {
 
     @NotEmpty(message = "The gender is required.")
     @Column(name = "gender")
-    @ValueOfEnum(enumClass = GenderEnum.class)
+    @ValueOfEnum(enumClass = GenderEnum.class, message = "gender must be: [M , F, O]")
     private String gender;
 
     @NotEmpty(message = "The phone number must not be empty")

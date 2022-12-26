@@ -11,4 +11,6 @@ public class ApiStatus {
     public final static int TOKEN_INVALID = 6;
 
     public final static int NOT_FOUND = 7;
+
+    public final static int DATA_WAREHOUSE_ERROR = 8;
 }
