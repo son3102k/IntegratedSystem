@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = ValueOfEnumValidator.class)
 public @interface ValueOfEnum {
     Class<? extends Enum<?>> enumClass();
-    String message() default "gender must be: M (male) , F(female) , O(other)";
+    String message() default "Value not in category";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

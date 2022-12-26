@@ -10,4 +10,6 @@ public class MessageCode {
     public final static String TOKEN_INVALID = "Invalid token";
 
     public final static String NOT_FOUND = "Not found";
+
+    public final static String DATA_WAREHOUSE_ERROR = "Data warehouse error occurred";
 }
