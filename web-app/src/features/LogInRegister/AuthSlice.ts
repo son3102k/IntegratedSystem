@@ -3,69 +3,93 @@ import { RootState } from "../../app/store";
 import { loginAPI, registerAPI } from "../../apis/auth";
 import { IDataUser } from "../../interfaces/user";
 
+interface IUser {
+  id: number;
+  name: string;
+  email: string;
+  dob: string;
+  gender: "F" | "M";
+  phoneNumber: string;
+  createdAt: string;
+  address: string;
+}
+
+interface IRole {
+  role: string;
+}
+
 export interface IAuthState {
-  token: string | null;
-  isLoggingIn: boolean;
-  isRegistering: boolean;
-  registerSuccess: boolean;
-  user: string | null;
-  error: string | null;
+  accessToken: string;
+  authorities: IRole[];
+  user: IUser;
 }
 
 const initialState: IAuthState = {
-  token: null,
-  isLoggingIn: false,
-  isRegistering: false,
-  registerSuccess: false,
-  user: null,
-  error: null,
+  accessToken: "",
+  authorities: [
+    {
+      role: "",
+    },
+  ],
+  user: {
+    id: 0,
+    name: "",
+    email: "",
+    dob: "",
+    gender: "F",
+    phoneNumber: "",
+    createdAt: "",
+    address: "",
+  },
 };
 
-export const LogIn = createAsyncThunk("auth/login", async (user: IDataUser) => {
+export const LogInAsync = createAsyncThunk("auth/login", async (user: IDataUser) => {
   const response = await loginAPI(user);
-  console.log(response);
-  return response.data;
+  return response.data.data;
 });
 
-export const Register = createAsyncThunk("auth/register", async (user: IDataUser) => {
+export const RegisterAsync = createAsyncThunk("auth/register", async (user: IDataUser) => {
   const response = await registerAPI(user);
-  console.log(response);
-  return response.data;
+  return response.data.data;
 });
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    LogOut: (state) => (state = initialState),
+  },
   extraReducers: (builder) => {
     builder
       // login
-      .addCase(LogIn.pending, (state) => {
-        console.log(state);
+      .addCase(LogInAsync.pending, (state) => {
+        // console.log(state)
       })
-      .addCase(LogIn.fulfilled, (state, action) => {
-        // state.token = action.payload.token;
-        console.log(state, action);
+      .addCase(LogInAsync.fulfilled, (state, action) => {
+        state.accessToken = action.payload.accessToken;
+        state.authorities = action.payload.authorities;
+        state.user = action.payload.user;
+        // console.log(state, action);
       })
-      .addCase(LogIn.rejected, (state) => {
-        console.log(state);
+      .addCase(LogInAsync.rejected, (state) => {
+        // console.log(state);
       });
 
     // register
     builder
-      .addCase(Register.pending, (state) => {
-        console.log(state);
+      .addCase(RegisterAsync.pending, (state) => {
+        // console.log(state);
       })
-      .addCase(Register.fulfilled, (state, action) => {
-        // state.token = action.payload.token;
-        console.log(state, action);
+      .addCase(RegisterAsync.fulfilled, (state, action) => {
+        state.accessToken = action.payload.accessToken;
+        // console.log(state, action);
       })
-      .addCase(Register.rejected, (state) => {
-        console.log(state);
+      .addCase(RegisterAsync.rejected, (state) => {
+        // console.log(state);
       });
   },
 });
 
-// export const {} = authSlice.actions;
+export const { LogOut } = authSlice.actions;
 export const selectAuth = (state: RootState) => state.auth;
 export default authSlice.reducer;

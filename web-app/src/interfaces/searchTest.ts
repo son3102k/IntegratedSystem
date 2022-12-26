@@ -7,9 +7,15 @@ export interface IRequestBody {
   page: string;
 }
 
-export interface IResponse {
+export interface IDataResponse {
   title: string;
   link: string;
   date: string;
   source: string;
+}
+
+export interface IResponse {
+  code: number;
+  message: string;
+  data: IDataResponse[];
 }

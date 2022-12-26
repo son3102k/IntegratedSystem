@@ -15,12 +15,13 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import { styled } from "@mui/material/styles";
-import { redirect_Account, redirect_Main, redirect } from "../../constant/pageRedirect";
+import { redirect_Account, redirect_Main, redirect, Page_GoToLogIn } from "../../constant/pageRedirect";
 import { name } from "../../constant/name";
 import { blue } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
-// import { selectAuth } from "../logInRegister/AuthSlice";
-// import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { selectAuth, LogOut } from "../LogInRegister/AuthSlice";
+import { Router_Login } from "../../constant/routerComponent";
 // import { Router_Login } from "../../constant/routerComponent";
 
 const drawerWidth = 240;
@@ -40,11 +41,12 @@ interface Props {
 
 export default function Layout(props: Props) {
   const navigate = useNavigate();
-  // const auth = useAppSelector(selectAuth);
-  // if (auth.token == null) {
-  //   navigate(Router_Login);
-  //   console.log("not auth");
-  // }
+  const auth = useAppSelector(selectAuth);
+  const dispatch = useAppDispatch();
+  if (auth.accessToken.length === 0) {
+    navigate(Router_Login);
+    console.log("not auth");
+  }
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [nowRedirectName, setNowRedirectName] = React.useState(redirect_Main[0].name);
@@ -55,6 +57,9 @@ export default function Layout(props: Props) {
 
   const handleClickTab = (redirect: redirect) => {
     setNowRedirectName(redirect.name);
+    if (redirect.name === Page_GoToLogIn) {
+      dispatch(LogOut());
+    }
     navigate(redirect.router);
     handleDrawerToggle();
   };

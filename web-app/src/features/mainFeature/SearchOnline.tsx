@@ -3,10 +3,13 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import React from "react";
-import { IRequestBody } from "../../interfaces/searchTest";
+import { IRequestBody, IResponse } from "../../interfaces/searchTest";
 import { classList, Math, MidTerm1, subjectList, typeList, webList } from "../../constant/searchOnline";
 import { Box, Divider, IconButton, InputBase, Paper, Typography } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import ItemResultSearch from "../../component/ItemResultSearch";
+import { dataForTest } from "./dummyData";
+import { getSearchTestAPI } from "../../apis/searchTest";
 
 const initialRequestBody: IRequestBody = {
   type: MidTerm1,
@@ -21,9 +24,9 @@ const SelectCSS = { m: "2rem 1rem", minWidth: 200 };
 
 export default function SearchOnline() {
   const [webSearch, setWebSearch] = React.useState("all");
-
   const [requestBody, setRequestBody] = React.useState(initialRequestBody);
-  const handleChange = (
+
+  const handleChangeOptionSearch = (
     event: SelectChangeEvent | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     attribute: keyof IRequestBody
   ) => {
@@ -33,9 +36,10 @@ export default function SearchOnline() {
     });
   };
 
-  const submitSearch = (event: React.FormEvent<HTMLFormElement>) => {
+  const submitSearch = (event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
-    console.log(requestBody);
+    // if (webSearch !== "all") console.log(getSearchTestAPI(requestBody));
+    // else console.log(getSearchTestAPI(requestBody, webSearch));
   };
 
   const renderSelect = (attribute: keyof IRequestBody, options: object) => (
@@ -46,7 +50,7 @@ export default function SearchOnline() {
         id={`select_${attribute}`}
         value={requestBody[attribute]}
         label={attribute}
-        onChange={(event) => handleChange(event, attribute)}
+        onChange={(event) => handleChangeOptionSearch(event, attribute)}
       >
         {Object.keys(options).map((opt) => (
           <MenuItem key={opt} value={options[opt as keyof typeof options]}>
@@ -68,9 +72,9 @@ export default function SearchOnline() {
           <InputBase
             sx={{ ml: 1, flex: 1 }}
             placeholder="Search key word ..."
-            onChange={(event) => handleChange(event, "text")}
+            onChange={(event) => handleChangeOptionSearch(event, "text")}
           />
-          <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+          <IconButton type="button" sx={{ p: "10px" }} aria-label="search" onClick={(event) => submitSearch(event)}>
             <SearchIcon />
           </IconButton>
         </Paper>
@@ -100,6 +104,9 @@ export default function SearchOnline() {
       <Box sx={{ width: "100%" }}>
         <Typography sx={{ display: "flex", justifyContent: "center", fontSize: "1.5rem" }}>Result Search</Typography>
         <Divider />
+        <Box>
+          <ItemResultSearch web="toanmath" data={dataForTest.data} />
+        </Box>
       </Box>
     </Box>
   );

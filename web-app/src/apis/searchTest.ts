@@ -1,14 +1,17 @@
 import { IRequestBody } from "../interfaces/searchTest";
 import { axiosAPI as api } from "./configApi";
 
-const getTestAPI = async (requestBody: IRequestBody, webName?: string) => {
-  const url = webName === null ? "/search" : `/search/${webName}`;
+const getSearchTestAPI = async (requestBody: IRequestBody, token: string, webName?: string) => {
+  const url = "/data-warehouse" + (webName === null ? "/search" : `/search-from-web?web=${webName}`);
   const registerResult = await api({
     method: "POST",
     url,
     data: requestBody,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
   return registerResult;
 };
 
-export { getTestAPI };
+export { getSearchTestAPI };
