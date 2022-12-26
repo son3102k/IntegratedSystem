@@ -1,0 +1,4 @@
+1. Thực hiện detect câu ... bằng yolo
+2. Sử dụng tọa độ detect được sắp xếp thứ tự các câu
+3. Dựa vào tọa độ đã sắp xếp để tách từng câu hỏi (có thể ghép ảnh từ 2 trang nếu như câu hỏi có 1 phần trang này và 1 phần trang còn lại)
+4. Lên ý tưởng về việc tách câu hỏi và đáp án

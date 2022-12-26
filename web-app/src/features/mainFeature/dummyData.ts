@@ -1,0 +1,123 @@
+import { IResponse } from "./../../interfaces/searchTest";
+export const dataForTest: IResponse[] = [
+  {
+    title: "Đề giữa học kỳ 1 Toán 11 năm 2022 – 2023 trường THPT Núi Thành – Quảng Nam",
+    link: "https://toanmath.com/2022/11/de-giua-hoc-ky-1-toan-11-nam-2022-2023-truong-thpt-nui-thanh-quang-nam.html",
+    date: "19/11/2022",
+    source: "toanmath",
+  },
+  {
+    title: "Đề giữa kỳ 1 Toán 11 năm 2022 – 2023 trường THPT Ngô Gia Tự – Phú Yên",
+    link: "https://toanmath.com/2022/11/de-giua-ky-1-toan-11-nam-2022-2023-truong-thpt-ngo-gia-tu-phu-yen.html",
+    date: "16/11/2022",
+    source: "toanmath",
+  },
+  {
+    title: "Đề giữa kỳ 1 Toán 11 năm 2022 – 2023 trường THPT Thị xã Quảng Trị",
+    link: "https://toanmath.com/2022/11/de-giua-ky-1-toan-11-nam-2022-2023-truong-thpt-thi-xa-quang-tri.html",
+    date: "15/11/2022",
+    source: "toanmath",
+  },
+  {
+    title: "Đề kiểm tra GK1 Toán 11 năm 2022 – 2023 trường THPT Võ Nguyên Giáp – Quảng Nam",
+    link: "https://toanmath.com/2022/11/de-kiem-tra-gk1-toan-11-nam-2022-2023-truong-thpt-vo-nguyen-giap-quang-nam.html",
+    date: "12/11/2022",
+    source: "toanmath",
+  },
+  {
+    title: "Đề giữa học kỳ 1 Toán 11 năm 2022 – 2023 trường THPT Nguyễn Huệ – Quảng Nam",
+    link: "https://toanmath.com/2022/11/de-giua-hoc-ky-1-toan-11-nam-2022-2023-truong-thpt-nguyen-hue-quang-nam.html",
+    date: "12/11/2022",
+    source: "toanmath",
+  },
+  {
+    title: "Đề giữa học kỳ 1 Toán 11 năm 2022 – 2023 trường THPT Lương Thế Vinh – Quảng Nam",
+    link: "https://toanmath.com/2022/11/de-giua-hoc-ky-1-toan-11-nam-2022-2023-truong-thpt-luong-the-vinh-quang-nam.html",
+    date: "12/11/2022",
+    source: "toanmath",
+  },
+  {
+    title: "Đề giữa học kì 1 Toán 11 năm 2022 – 2023 trường THPT Huỳnh Thúc Kháng – Quảng Nam",
+    link: "https://toanmath.com/2022/11/de-giua-hoc-ki-1-toan-11-nam-2022-2023-truong-thpt-huynh-thuc-khang-quang-nam.html",
+    date: "12/11/2022",
+    source: "toanmath",
+  },
+  {
+    title: "Đề giữa học kỳ 1 Toán 11 năm 2022 – 2023 trường THPT Huỳnh Ngọc Huệ – Quảng Nam",
+    link: "https://toanmath.com/2022/11/de-giua-hoc-ky-1-toan-11-nam-2022-2023-truong-thpt-huynh-ngoc-hue-quang-nam.html",
+    date: "12/11/2022",
+    source: "toanmath",
+  },
+  {
+    title: "Đề giữa học kỳ 1 Toán 11 năm 2022 – 2023 trường THPT Quế Sơn – Quảng Nam",
+    link: "https://toanmath.com/2022/11/de-giua-hoc-ky-1-toan-11-nam-2022-2023-truong-thpt-que-son-quang-nam.html",
+    date: "12/11/2022",
+    source: "toanmath",
+  },
+  {
+    title: "Đề giữa học kỳ 1 Toán 11 năm 2022 – 2023 trường THPT Nguyễn Dục – Quảng Nam",
+    link: "https://toanmath.com/2022/11/de-giua-hoc-ky-1-toan-11-nam-2022-2023-truong-thpt-nguyen-duc-quang-nam.html",
+    date: "12/11/2022",
+    source: "toanmath",
+  },
+  {
+    title: "Đề giữa học kì 1 Toán 11 năm 2022 – 2023 trường THPT Tây Giang – Quảng Nam",
+    link: "https://toanmath.com/2022/11/de-giua-hoc-ki-1-toan-11-nam-2022-2023-truong-thpt-tay-giang-quang-nam.html",
+    date: "12/11/2022",
+    source: "toanmath",
+  },
+  {
+    title: "Đề giữa kỳ 1 Toán 11 năm 2022 – 2023 trường THPT Phù Cừ – Hưng Yên",
+    link: "https://toanmath.com/2022/11/de-giua-ky-1-toan-11-nam-2022-2023-truong-thpt-phu-cu-hung-yen.html",
+    date: "11/11/2022",
+    source: "toanmath",
+  },
+  {
+    title: "Đề giữa kỳ 1 Toán 11 năm 2022 – 2023 trường THPT Hương Khê – Hà Tĩnh",
+    link: "https://toanmath.com/2022/11/de-giua-ky-1-toan-11-nam-2022-2023-truong-thpt-huong-khe-ha-tinh.html",
+    date: "10/11/2022",
+    source: "toanmath",
+  },
+  {
+    title: "Đề giữa kì 1 Toán 11 năm 2022 – 2023 trường chuyên Vị Thanh – Hậu Giang",
+    link: "https://toanmath.com/2022/11/de-giua-ki-1-toan-11-nam-2022-2023-truong-chuyen-vi-thanh-hau-giang.html",
+    date: "10/11/2022",
+    source: "toanmath",
+  },
+  {
+    title: "Đề giữa kỳ 1 Toán 11 năm 2022 – 2023 trường THPT Phan Ngọc Hiển – Cà Mau",
+    link: "https://toanmath.com/2022/11/de-giua-ky-1-toan-11-nam-2022-2023-truong-thpt-phan-ngoc-hien-ca-mau.html",
+    date: "07/11/2022",
+    source: "toanmath",
+  },
+  {
+    title: "Đề giữa kỳ 1 Toán 11 năm 2022 – 2023 THPT Lương Ngọc Quyến – Thái Nguyên",
+    link: "https://toanmath.com/2022/11/de-giua-ky-1-toan-11-nam-2022-2023-thpt-luong-ngoc-quyen-thai-nguyen.html",
+    date: "07/11/2022",
+    source: "toanmath",
+  },
+  {
+    title: "Đề giữa kỳ 1 Toán 11 năm 2022 – 2023 trường THPT Nguyễn Tất Thành – TP HCM",
+    link: "https://toanmath.com/2022/11/de-giua-ky-1-toan-11-nam-2022-2023-truong-thpt-nguyen-tat-thanh-tp-hcm.html",
+    date: "07/11/2022",
+    source: "toanmath",
+  },
+  {
+    title: "Đề kiểm tra giữa học kỳ 1 Toán 11 năm 2022 – 2023 sở GD&ĐT Bắc Ninh",
+    link: "https://toanmath.com/2022/11/de-kiem-tra-giua-hoc-ky-1-toan-11-nam-2022-2023-so-gddt-bac-ninh.html",
+    date: "05/11/2022",
+    source: "toanmath",
+  },
+  {
+    title: "Đề giữa kỳ 1 Toán 11 năm 2022 – 2023 trường THPT Phùng Khắc Khoan – Hà Nội",
+    link: "https://toanmath.com/2022/11/de-giua-ky-1-toan-11-nam-2022-2023-truong-thpt-phung-khac-khoan-ha-noi.html",
+    date: "05/11/2022",
+    source: "toanmath",
+  },
+  {
+    title: "Đề giữa học kỳ 1 Toán 11 năm 2022 – 2023 trường THPT Bình Chiểu – TP HCM",
+    link: "https://toanmath.com/2022/11/de-giua-hoc-ky-1-toan-11-nam-2022-2023-truong-thpt-binh-chieu-tp-hcm.html",
+    date: "05/11/2022",
+    source: "toanmath",
+  },
+];

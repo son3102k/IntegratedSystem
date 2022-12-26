@@ -6,3 +6,10 @@ export interface IRequestBody {
   text?: string;
   page: number;
 }
+
+export interface IResponse {
+  title: string;
+  link: string;
+  date: string;
+  source: string;
+}
