@@ -1,15 +1,21 @@
 export interface IRequestBody {
   type: string;
   subject: string;
-  grade?: number;
-  level?: number;
-  text?: string;
-  page: number;
+  grade: string;
+  level: string;
+  text: string;
+  page: string;
 }
 
-export interface IResponse {
+export interface IDataResponse {
   title: string;
   link: string;
   date: string;
   source: string;
+}
+
+export interface IResponse {
+  code: number;
+  message: string;
+  data: IDataResponse[];
 }

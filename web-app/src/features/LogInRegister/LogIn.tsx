@@ -14,11 +14,12 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import image_login from "../../assets/image_login.jpg";
 import { group, welcome } from "../../constant/name";
-import { loginAPI } from "../../apis/auth";
 import { useNavigate } from "react-router-dom";
 import { Router_SearchOnline } from "../../constant/routerComponent";
 import Register from "./Register";
 import ForgetPW from "./ForgetPW";
+import { useAppDispatch } from "../../app/hooks";
+import { LogInAsync } from "./AuthSlice";
 
 function Copyright(props: any) {
   return (
@@ -36,6 +37,7 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function LogIn() {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -54,9 +56,11 @@ export default function LogIn() {
   };
 
   const handleSubmit = async () => {
-    console.log(username, password);
-    // await loginAPI({ username, password });
-    navigate(Router_SearchOnline);
+    await dispatch(LogInAsync({ username, password }))
+      .then((response) => {
+        navigate(Router_SearchOnline);
+      })
+      .catch((error) => console.log(error));
   };
 
   return (

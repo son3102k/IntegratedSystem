@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_BASE_URL, ASSET_BASE_URL, SEARCH_TEST_BASE_URL, SPRING_BOOT_BASE_URL } from "../configs";
+import { API_BASE_URL } from "../configs";
 // import { store } from "../app/store";
 
 // const CancelToken = axios.CancelToken;
@@ -49,31 +49,4 @@ axiosAPI.interceptors.response.use(
   }
 );
 
-const axiosASSET = axios.create({
-  baseURL: ASSET_BASE_URL,
-  responseType: "json",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  timeout: 300 * 1000,
-});
-
-const axiosSpringBoot = axios.create({
-  baseURL: SPRING_BOOT_BASE_URL,
-  responseType: "json",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  timeout: 300 * 1000,
-});
-
-const axiosSearchTest = axios.create({
-  baseURL: SEARCH_TEST_BASE_URL,
-  responseType: "json",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  timeout: 300 * 1000,
-});
-
-export { axiosAPI, axiosASSET, axiosSpringBoot, axiosSearchTest };
+export { axiosAPI };
