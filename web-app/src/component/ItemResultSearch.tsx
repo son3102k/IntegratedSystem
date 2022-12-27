@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/material";
+import {Typography, Link , Box, Divider} from "@mui/material";
 import { IDataResponse } from "../interfaces/searchTest";
 
 interface PropsItemSearch {
@@ -8,16 +8,18 @@ interface PropsItemSearch {
 
 export default function ItemResultSearch(props: PropsItemSearch) {
   return (
-    <Accordion id={`panel__${props.web}`}>
-      <AccordionSummary aria-controls={`panel__content__${props.web}`} id={`panel__header__${props.web}`}>
-        <Typography>{props.web}</Typography>
-      </AccordionSummary>
+    <Box>
       {props.data?.map((item) => (
-        <AccordionDetails key={item.link}>
-          <Typography>{item.title}</Typography>
+        <Box key={item.link} sx={{padding: 1.5}}>
+          <Link href={item.link} target="_blank">
+            {item.title}
+          </Link>
           <Typography>{item.date}</Typography>
-        </AccordionDetails>
+          <Typography>{item.source}</Typography>
+          <Divider sx={{marginTop: 1}}/>
+        </Box>
       ))}
-    </Accordion>
+    </Box>
   );
+  
 }

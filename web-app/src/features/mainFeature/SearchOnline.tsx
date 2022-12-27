@@ -3,18 +3,19 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import React from "react";
-import { IRequestBody, IResponse } from "../../interfaces/searchTest";
+import { IRequestBody } from "../../interfaces/searchTest";
 import { classList, Math, MidTerm1, subjectList, typeList, webList } from "../../constant/searchOnline";
 import { Box, Divider, IconButton, InputBase, Paper, Typography } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ItemResultSearch from "../../component/ItemResultSearch";
-import { dataForTest } from "./dummyData";
 import { getSearchTestAPI } from "../../apis/searchTest";
+import { useAppSelector } from "../../app/hooks";
+import { selectAuth } from "../LogInRegister/AuthSlice";
 
 const initialRequestBody: IRequestBody = {
   type: MidTerm1,
   subject: Math,
-  grade: "All",
+  grade: "10",
   level: "",
   text: "",
   page: "",
@@ -25,6 +26,8 @@ const SelectCSS = { m: "2rem 1rem", minWidth: 200 };
 export default function SearchOnline() {
   const [webSearch, setWebSearch] = React.useState("all");
   const [requestBody, setRequestBody] = React.useState(initialRequestBody);
+  const auth = useAppSelector(selectAuth);
+  const [data, setData] = React.useState([]);
 
   const handleChangeOptionSearch = (
     event: SelectChangeEvent | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -36,11 +39,16 @@ export default function SearchOnline() {
     });
   };
 
-  const submitSearch = (event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const submitSearch =  async (event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
-    // if (webSearch !== "all") console.log(getSearchTestAPI(requestBody));
-    // else console.log(getSearchTestAPI(requestBody, webSearch));
-  };
+    if (webSearch !== "all") console.log(getSearchTestAPI(requestBody, auth.accessToken));
+    else {
+      await getSearchTestAPI(requestBody, auth.accessToken, webSearch).then((res) => {
+        setData(res.data.data);
+      });
+      
+    }
+  };;
 
   const renderSelect = (attribute: keyof IRequestBody, options: object) => (
     <FormControl sx={SelectCSS}>
@@ -105,7 +113,7 @@ export default function SearchOnline() {
         <Typography sx={{ display: "flex", justifyContent: "center", fontSize: "1.5rem" }}>Result Search</Typography>
         <Divider />
         <Box>
-          <ItemResultSearch web="toanmath" data={dataForTest.data} />
+          <ItemResultSearch web="" data={data} />
         </Box>
       </Box>
     </Box>

@@ -41,7 +41,6 @@ export const Class10 = "10";
 export const Class11 = "11";
 export const Class12 = "12";
 export const classList = {
-  All: "All",
   Class10,
   Class11,
   Class12,
