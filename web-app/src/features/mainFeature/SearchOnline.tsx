@@ -24,9 +24,10 @@ const initialRequestBody: IRequestBody = {
 const SelectCSS = { m: "2rem 1rem", minWidth: 200 };
 
 export default function SearchOnline() {
+  const auth = useAppSelector(selectAuth);
+
   const [webSearch, setWebSearch] = React.useState("all");
   const [requestBody, setRequestBody] = React.useState(initialRequestBody);
-  const auth = useAppSelector(selectAuth);
   const [data, setData] = React.useState([]);
 
   const handleChangeOptionSearch = (
@@ -39,16 +40,17 @@ export default function SearchOnline() {
     });
   };
 
-  const submitSearch =  async (event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const submitSearch = async (
+    event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     event.preventDefault();
     if (webSearch !== "all") console.log(getSearchTestAPI(requestBody, auth.accessToken));
     else {
       await getSearchTestAPI(requestBody, auth.accessToken, webSearch).then((res) => {
         setData(res.data.data);
       });
-      
     }
-  };;
+  };
 
   const renderSelect = (attribute: keyof IRequestBody, options: object) => (
     <FormControl sx={SelectCSS}>
