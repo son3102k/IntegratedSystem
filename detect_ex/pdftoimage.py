@@ -21,7 +21,7 @@ def del_last_page(img):
                 line -= 1
         line -= 1
 def creat_image(file, fn_file = '.pdf', poppler_path = ''):
-    pages = convert_from_path(file+fn_file, 500, poppler_path = poppler_path)
+    pages = convert_from_path(file+fn_file, 500)
 
     try:
         os.mkdir(file)
@@ -31,9 +31,9 @@ def creat_image(file, fn_file = '.pdf', poppler_path = ''):
 
     num_image = 1
     for page in pages:
-        page.save(file + f'\\page{num_image}.png', 'PNG')
+        page.save(file + f'/page{num_image}.png', 'PNG')
         num_image += 1
-def creat_image_full(file, num_pages, y1, y2, column):
+def creat_image_full(file, num_pages):
     image = []
     for i in range(1,num_pages+1):
         img  = cv2.imread(file + f"/page{i}.png", cv2.IMREAD_COLOR)
@@ -43,6 +43,6 @@ def creat_image_full(file, num_pages, y1, y2, column):
         image.append(img)
     for i in range(1,num_pages):
         image[0] = cv2.vconcat([image[0], image[i]])
-    image_cau = cv2.imread(file + "/cau.png", cv2.IMREAD_COLOR)
-    image[0][y1-y2-1:-1,column:column+160,:] = image_cau
+    # image_cau = cv2.imread(file + "/cau.png", cv2.IMREAD_COLOR)
+    # image[0][y1-y2-1:-1,column:column+160,:] = image_cau
     cv2.imwrite(file+"/image_full.png", image[0])
