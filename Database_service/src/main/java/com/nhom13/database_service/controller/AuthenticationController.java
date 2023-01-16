@@ -1,6 +1,4 @@
 package com.nhom13.database_service.controller;
-import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.google.gson.Gson;
 import com.nhom13.database_service.constant.ApiStatus;
 import com.nhom13.database_service.constant.MessageCode;
@@ -12,8 +10,6 @@ import com.nhom13.database_service.security.service.JwtTokenService;
 import com.nhom13.database_service.security.service.JwtUserDetailsService;
 import com.nhom13.database_service.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,12 +18,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Optional;
-import java.util.UUID;
+
 
 
 @RestController
