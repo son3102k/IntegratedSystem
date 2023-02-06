@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -43,10 +43,12 @@ export default function Layout(props: Props) {
   const navigate = useNavigate();
   const auth = useAppSelector(selectAuth);
   const dispatch = useAppDispatch();
-  if (auth.accessToken.length === 0) {
-    navigate(Router_Login);
-    console.log("not auth");
-  }
+  useEffect(() => {
+    if (auth.accessToken.length === 0) {
+      navigate(Router_Login);
+      console.log("not auth");
+    }
+  }, [])
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [nowRedirectName, setNowRedirectName] = React.useState(redirect_Main[0].name);
