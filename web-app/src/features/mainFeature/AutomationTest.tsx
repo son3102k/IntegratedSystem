@@ -13,6 +13,10 @@ import { useAppSelector } from "../../app/hooks";
 import { selectAuth } from "../LogInRegister/AuthSlice";
 import { getAllQuestionByExamId, getAllTest } from "../../apis/exam";
 import { IAnswer, IListAnswer, IQuestion, ITestDescription } from "../../interfaces/exam";
+import { useNavigate } from "react-router-dom";
+import { Router_History } from "../../constant/routerComponent";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
 const BoxTitleCss = { display: "flex", flexWrap: "nowrap", flexDirection: "row", alignItems: "center" };
 const TypoTitleCss = { fontSize: "1.25em", marginLeft: 1 };
@@ -33,22 +37,44 @@ const Item = styled(Paper)(({ theme }) => ({
   width: "100%",
 }));
 
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref,
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+
 const initDataExam: ITestDescription[] = [];
 const initDataQuestion: IQuestion[] = [];
 // const initDataAnswer: IListAnswer[] = [];
-
 export default function AutomationTest() {
   const auth = useAppSelector(selectAuth);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [listExam, setListExam] = useState(initDataExam);
   const [listQuestion, setListQuestion] = useState(initDataQuestion);
-  const [listDataAnswer , setListDataAnswer] = useState([]);
+  const [listDataAnswer, setListDataAnswer] = useState([]);
   const [isExamSelected, setIsExamSelected] = useState(false);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAllTest(auth.accessToken)
-    .then(res => setListExam(res.data['data']))
-    .catch(err => console.log(err))
+      .then((res) => setListExam(res.data["data"]))
+      .catch((err) => console.log(err));
   }, []);
 
   const [listAnswers, setListAnswers] = useState(
@@ -68,7 +94,7 @@ export default function AutomationTest() {
     setListAnswers((prev) => [...prev.slice(0, selectedIndex), event.target.value, ...prev.slice(selectedIndex + 1)]);
   };
 
-  const handleClickSelectExam = (exam : ITestDescription) => {
+  const handleClickSelectExam = (exam: ITestDescription) => {
     setIsExamSelected(true);
     console.log(exam);
     getAllQuestionByExamId(auth.accessToken, exam.id)
@@ -77,12 +103,23 @@ export default function AutomationTest() {
         setListDataAnswer(res.data["data"]["listAnswer"]);
       })
       .catch((err) => console.log(err));
-  }
+  };
+  const handleClickSubmit = () => {
+    setOpen(true);
+    setTimeout(()=> {
+      navigate(Router_History);
+    },1500);
+  };
 
   return (
     <>
       {isExamSelected ? (
         <Box sx={{ flexGrow: 1 }}>
+          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+              Nộp bài thi thành công
+            </Alert>
+          </Snackbar>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography variant="h4" component="h2" color="#072d94" align="left" sx={{ fontWeight: 700 }}>
@@ -254,6 +291,7 @@ export default function AutomationTest() {
                       variant="contained"
                       color="success"
                       sx={{ marginTop: 3, marginBottom: 3, backgroundColor: "#f9bf2a" }}
+                      onClick={handleClickSubmit}
                     >
                       Submit
                     </Button>
@@ -267,7 +305,7 @@ export default function AutomationTest() {
         <Box>
           <Box sx={{ width: "100%", bgcolor: "#f2f2f2" }}>
             <List>
-              {listExam?.map((exam , index) => (
+              {listExam?.map((exam, index) => (
                 <div key={`div-exam-${index}`}>
                   <ListItem disablePadding key={`list-item-exam-${index}`}>
                     <ListItemButton onClick={() => handleClickSelectExam(exam)} key={`list-item-button-exam-${index}`}>
